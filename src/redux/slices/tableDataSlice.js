@@ -4,10 +4,14 @@ export const tableDataSlice = createSlice({
   name: 'tableData',
   initialState: {
     list: [],
+    values: [],
   },
   reducers: {
     setItems: (state, action) => {
         state.list = action.payload;
+    },
+    setValues: (state, action) => {
+        state.values = action.payload;
     },
     addItem: (state, action) => {
       state.list.push(action.payload);
@@ -18,19 +22,30 @@ export const tableDataSlice = createSlice({
   },
 });
 
-export const { addItem, removeItem, setItems } = tableDataSlice.actions;
+export const { addItem, removeItem, setItems, setValues } = tableDataSlice.actions;
 
-// The function below is called a thunk and allows us to perform async logic. It
-// can be dispatched like a regular action: `dispatch(incrementAsync(10))`. This
-// will call the thunk with the `dispatch` function as the first argument. Async
-// code can then be executed and other actions can be dispatched
+export const setStateData = data => async dispatch => {
+    await dispatch(setItems(data));
+    const values = data.reduce((valuesArr, item) => {
+        for ( const [key, value] of Object.entries(item)) {
+            debugger;
+            if (key.includes('val')) {
+                let targetItem = valuesArr.find(i => i.name === key);
+                if (!targetItem) {
+                    valuesArr.push({ name: key, value: +value });
+                } else if (targetItem) {
+                    
+                    targetItem = Object.assign(targetItem, { value: targetItem.value + +value })   
 
-// export const incrementAsync = amount => dispatch => {
-//   setTimeout(() => {
-//     dispatch(incrementByAmount(amount));
-//   }, 1000);
-// };
+                }
+            }
+        }
+        return valuesArr
+    }, []);
+    dispatch(setValues(values))
+};
 
 export const selectTableData = state => state.tableData.list;
+export const selectTableValues = state => state.tableData.values;
 
 export default tableDataSlice.reducer;

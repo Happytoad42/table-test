@@ -1,9 +1,10 @@
 import React from 'react'
 
-const Display = () => {
+const Display = ({ name, value }) => {
     return (
         <div>
-            Display
+            <p>{name}</p>
+            <p>{value}</p>
         </div>
     )
 }

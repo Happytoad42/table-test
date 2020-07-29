@@ -1,13 +1,14 @@
 import React, { useEffect } from 'react';
-import { Jumbotron, Container, Row, Col } from 'react-bootstrap'
-import Table from './components/Table';
+import { Container, Row, Col } from 'react-bootstrap'
+import DataTable from './components/DataTable';
 import Chart from './components/Chart';
 import Display from './components/Display';
 
 import { useSelector, useDispatch } from 'react-redux';
 import {
-  setItems,
-  selectTableData
+  setStateData,
+  selectTableData,
+  selectTableValues
 } from './redux/slices/tableDataSlice';
 
 import { getApiData } from './API/AppAPI'
@@ -15,23 +16,24 @@ import { getApiData } from './API/AppAPI'
 import './App.css';
 
 function App() {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch();  
   const tableData = useSelector(selectTableData);
+  const valuesData = useSelector(selectTableValues);
 
   useEffect(() => {
-    dispatch(setItems(getApiData()));
+    dispatch(setStateData(getApiData()));
   }, [dispatch])
 
   return (
       <Container fluid className="App">
           <Row>
-              <Col sm={6}>
-                <Display/>
+              <Col className='wrapper' sm={6}>
+                {valuesData.map(item => <Display name={item.name} value={item.value} />)}
               </Col>
-              <Col sm={6}>
-                <Table data={tableData}/>
+              <Col className='wrapper' sm={6}>
+                <DataTable  data={tableData}/>
               </Col>
-              <Col>
+              <Col className='wrapper' >
                 <Chart/>
               </Col>
           </Row>
