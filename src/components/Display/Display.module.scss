@@ -1,0 +1,15 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #cccccc;
+    border-radius: 18px;
+    padding: 1em;
+    margin: 0 15px;
+}
+
+.header {
+    font-weight: bold;
+    font-size: 24px;
+    padding-right: 0.5em;
+}

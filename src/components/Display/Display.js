@@ -1,10 +1,10 @@
-import React from 'react'
+import React from 'react';
+import styles from './Display.module.scss'
 
 const Display = ({ name, value }) => {
     return (
-        <div>
-            <p>{name}</p>
-            <p>{value}</p>
+        <div className={styles.container}>
+            <h3 className={styles.header}>{name}: </h3><span>{value}</span>            
         </div>
     )
 }
