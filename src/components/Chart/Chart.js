@@ -3,11 +3,12 @@ import CanvasJSReact from '../../vendor/canvasjs/canvasjs.react.js';
 
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
-const Chart = ({ data, values }) => {
+const Chart = ({ data, values }) => {    
+    // Get all values names
     const valuesArr = values.map(val => val.name);
 
+    // Create [] of values by name instead of wha API gives us
     const valuesByName = valuesArr.map(function(value) {
-        debugger;
         const valueName = value.toString();
         const valueDataByName = {};
         data.map(item => Object.assign(valueDataByName, { [item.name]: item[value] }));
@@ -15,17 +16,8 @@ const Chart = ({ data, values }) => {
         return { valueName, valueData: valueDataByName };
     })
 
-
-    const toggleDataSeries = (e) => {
-		if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
-			e.dataSeries.visible = false;
-		}
-		else {
-			e.dataSeries.visible = true;
-		}
-		this.chart.render();
-    }
-    
+    // Normalize data to fit Charts API:
+    // [ valueName: name, valueData: [ { name, data } ]]
     const chartData = valuesByName.map(function(valueItem) {
         const points = function() {
             let pointsArr = [];
@@ -43,9 +35,6 @@ const Chart = ({ data, values }) => {
             dataPoints: points()
         }
     });
-    
-    console.log(chartData)
-
 
     const options = {
         animationEnabled: true,
@@ -68,52 +57,8 @@ const Chart = ({ data, values }) => {
             horizontalAlign: "right",
             reversed: true,
             cursor: "pointer",
-            itemclick: toggleDataSeries
         },
-        data: chartData
-        
-        
-        // [
-        //     {
-        //         type: "stackedColumn",
-        //         name: "val1",
-        //         showInLegend: true,
-        //         yValueFormatString: "#,##",
-        //         dataPoints: [
-        //             { label: "DAY1", y: 114 },
-        //             { label: "DAY2", y: 14 },
-        //             { label: "DAY3", y: 4 },
-        //             { label: "DAY4", y: 24 },
-        //             { label: "DAY5", y: 54 },
-        //         ]
-        //     },
-        //     {
-        //         type: "stackedColumn",
-        //         name: "val2",
-        //         showInLegend: true,
-        //         yValueFormatString: "#,##",
-        //         dataPoints: [
-        //             { label: "DAY1", y: 14 },
-        //             { label: "DAY2", y: 24 },
-        //             { label: "DAY3", y: 34 },
-        //             { label: "DAY4", y: 64 },
-        //             { label: "DAY5", y: 34 },
-        //         ]
-        //     },
-        //     {
-        //         type: "stackedColumn",
-        //         name: "val3",
-        //         showInLegend: true,
-        //         yValueFormatString: "#,##",
-        //         dataPoints: [
-        //             { label: "DAY1", y: 34 },
-        //             { label: "DAY2", y: 64 },
-        //             { label: "DAY3", y: 94 },
-        //             { label: "DAY4", y: 114 },
-        //             { label: "DAY5", y: 24 },
-        //         ]
-        //     },
-        // ]
+        data: chartData       
     }
 
     return (

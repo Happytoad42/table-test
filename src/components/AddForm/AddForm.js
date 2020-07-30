@@ -7,10 +7,11 @@ const AddForm = ({ fields, addItem }) => {
 
     const [ newItem, setNewItem ] = useState({});
 
+    // On input change
     const handleChange = e => {
         setNewItem(Object.assign(newItem, {[e.target.name]: e.target.value }));
     }
-
+    // On from submit
     const handleSubmit = (e, item) => {
         e.preventDefault();
         addItem(item);
@@ -27,16 +28,17 @@ const AddForm = ({ fields, addItem }) => {
             </div>
         )
     } else {
-
-        
-    
         return (
             <Form onSubmit={(e) => handleSubmit(e, newItem)}>
                 <Form.Row>
                     {fields.map((field, i) => 
                         <Form.Group key={i} as={Col} controlId={`${field}-input`}>
                             <Form.Label>{capitalizeFirstLetter(field)}</Form.Label>
-                            <Form.Control name={field} type={deriveField(field)} placeholder={`Enter ${field}`} onChange={handleChange} />
+                            <Form.Control 
+                                name={field} 
+                                type={deriveField(field)} 
+                                placeholder={`Enter ${field}`} 
+                                onChange={handleChange} />
                         </Form.Group>
                     )}              
                 </Form.Row>

@@ -4,6 +4,7 @@ import DataTable from './components/DataTable';
 import Chart from './components/Chart';
 import Display from './components/Display';
 
+// Get all the goodies from redux toolkit
 import { useSelector, useDispatch } from 'react-redux';
 import {
   setStateData,
@@ -15,20 +16,27 @@ import {
   editItem,
 } from './redux/slices/tableDataSlice';
 
+// get our "API" data
 import { getApiData } from './API/AppAPI'
 
+// Basic styling
 import './App.css';
 
 function App() {
+
   const dispatch = useDispatch();  
+
+  // Grab all we need from state
   const tableData = useSelector(selectTableData);
   const valuesData = useSelector(selectTableValues);
   const fieldsData = useSelector(selectTableFields);
 
+  // Initial setup
   useEffect(() => {
     dispatch(setStateData(getApiData()));
   }, [dispatch])
 
+  // Action handlers
   const handleRemoveItem = (id) => {
     dispatch(removeItem(tableData, id));
   }

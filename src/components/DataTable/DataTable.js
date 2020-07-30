@@ -6,9 +6,12 @@ import AddForm from '../AddForm';
 
 const DataTable = ({ data, fields, removeItem, addItem, editItem }) => {
 
+    // Modal state
     const [modalVisile, setModalVisible] = useState(false);
+    // Item being edited
     const [activeItem, setActiveItem] = useState({});
 
+    // Modal controls
     const handleClose = () => {
         setModalVisible(false)
     };
@@ -17,6 +20,7 @@ const DataTable = ({ data, fields, removeItem, addItem, editItem }) => {
         setModalVisible(true)
     };
     
+    // Error handling
     if (!data.length) {
         return (
             <div className="border">
@@ -25,6 +29,7 @@ const DataTable = ({ data, fields, removeItem, addItem, editItem }) => {
         ) 
     }
     
+    // Init once
     const tableHeaders =  Object.keys(data[0]);
     let rowCount = 1;
 
@@ -35,6 +40,7 @@ const DataTable = ({ data, fields, removeItem, addItem, editItem }) => {
                     <tr>
                         <th>#</th>
                         { tableHeaders.map((header, i) => {
+                            // Symbols not working in redux, duh
                             if (header !== 'id') {
                                 return (<th key={i}>{header}</th>)
                             }
@@ -52,13 +58,27 @@ const DataTable = ({ data, fields, removeItem, addItem, editItem }) => {
                             }
                             return false;
                         } )}
-                        <th><Button size="sm" variant="danger" onClick={ () => removeItem(item.id) }>Del</Button><Button size="sm" variant="primary" onClick={() => handleShow(item)}>Edit</Button></th>
+                        <th>
+                            <Button 
+                                size="sm" 
+                                variant="danger" 
+                                onClick={ () => removeItem(item.id) }>Del</Button>
+                            <Button 
+                                size="sm" 
+                                variant="primary" 
+                                onClick={() => handleShow(item)}>Edit</Button>
+                        </th>
                    </tr>)}
                 </tbody>
             </Table>
             <hr/>
             <AddForm addItem={addItem} fields={fields}/>
-            <EditModal show={modalVisile} fields={fields} onHide={handleClose} editItem={editItem} activeItem={activeItem}/>
+            <EditModal 
+                show={modalVisile} 
+                fields={fields} 
+                onHide={handleClose} 
+                editItem={editItem} 
+                activeItem={activeItem}/>
         </div>
     )
 }

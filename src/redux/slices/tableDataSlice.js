@@ -1,5 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+
+// Table data reducer
 export const tableDataSlice = createSlice({
   name: 'tableData',
   initialState: {
@@ -22,6 +24,7 @@ export const tableDataSlice = createSlice({
 
 export const { setItems, setValues, setFields } = tableDataSlice.actions;
 
+//Pretty self-explanatory
 export const removeItem = (data, id) => dispatch => {
   const newData = data.filter(item => item.id !== id);
   dispatch(setStateData(newData));
@@ -32,8 +35,8 @@ export const addItem = (data, newItem) => dispatch => {
   dispatch(setStateData(newData));
 }
 
+// Find and replace item that was edited
 export const editItem = (data, editedItem) => dispatch => {
-  debugger;
   const newData = [...data];
   const targetItem = newData.find(item => item.id === editedItem.id);
   const index = newData.indexOf(targetItem);
@@ -42,6 +45,7 @@ export const editItem = (data, editedItem) => dispatch => {
   dispatch(setStateData(newData));
 }
 
+// Set all the state data fields based on data array
 export const setStateData = data => async dispatch => {
   let fieldsArr = [];
     await dispatch(setItems(data.map(item => {
