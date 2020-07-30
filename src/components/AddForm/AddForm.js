@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { Form, Button, Col, Spinner } from 'react-bootstrap'
+import { Form, Button, Col, Spinner } from 'react-bootstrap';
+
+import { capitalizeFirstLetter, deriveField } from '../../utils/utils'
 
 const AddForm = ({ fields, addItem }) => {
 
@@ -10,7 +12,6 @@ const AddForm = ({ fields, addItem }) => {
     }
 
     const handleSubmit = (e, item) => {
-        debugger;
         e.preventDefault();
         addItem(item);
         setNewItem({});
@@ -27,17 +28,7 @@ const AddForm = ({ fields, addItem }) => {
         )
     } else {
 
-        const deriveField = function(field) {
-
-            if (field.includes('val')) {
-                return 'number';
-            }
-            return 'text';
-        }
-
-        const capitalizeFirstLetter = (string) => {
-            return string.charAt(0).toUpperCase() + string.slice(1);
-        }
+        
     
         return (
             <Form onSubmit={(e) => handleSubmit(e, newItem)}>

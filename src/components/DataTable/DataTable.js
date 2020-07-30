@@ -1,9 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Table, Spinner, Button } from 'react-bootstrap';
+import EditModal from '../EditModal'
 
 import AddForm from '../AddForm';
 
-const DataTable = ({ data, fields, removeItem, addItem }) => {
+const DataTable = ({ data, fields, removeItem, addItem, editItem }) => {
+
+    const [modalVisile, setModalVisible] = useState(false);
+    const [activeItem, setActiveItem] = useState({});
+
+    const handleClose = () => {
+        setModalVisible(false)
+    };
+    const handleShow = (item) => {
+        setActiveItem(item);
+        setModalVisible(true)
+    };
     
     if (!data.length) {
         return (
@@ -17,7 +29,7 @@ const DataTable = ({ data, fields, removeItem, addItem }) => {
     let rowCount = 1;
 
     return (
-        <div className="border" >
+        <div className='wrapper border' >
             <Table striped bordered hover>
                 <thead>
                     <tr>
@@ -26,6 +38,7 @@ const DataTable = ({ data, fields, removeItem, addItem }) => {
                             if (header !== 'id') {
                                 return (<th key={i}>{header}</th>)
                             }
+                            return false;
                         } )}
                         <th> </th>
                     </tr>
@@ -37,14 +50,15 @@ const DataTable = ({ data, fields, removeItem, addItem }) => {
                             if (header !== 'id') {
                                 return (<td key={ind}> {item[header]}</td>)
                             }
+                            return false;
                         } )}
-                        <th><Button size="sm" variant="danger" onClick={ () => removeItem(item.id) }>Del</Button><Button size="sm" variant="primary">Edit</Button></th>
+                        <th><Button size="sm" variant="danger" onClick={ () => removeItem(item.id) }>Del</Button><Button size="sm" variant="primary" onClick={() => handleShow(item)}>Edit</Button></th>
                    </tr>)}
                 </tbody>
             </Table>
             <hr/>
             <AddForm addItem={addItem} fields={fields}/>
-
+            <EditModal show={modalVisile} fields={fields} onHide={handleClose} editItem={editItem} activeItem={activeItem}/>
         </div>
     )
 }

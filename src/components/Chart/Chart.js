@@ -1,6 +1,8 @@
 import React from 'react';
 import CanvasJSReact from '../../vendor/canvasjs/canvasjs.react.js';
 
+import styles from './Chart.module.scss'
+
 const CanvasJS = CanvasJSReact.CanvasJS;
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
@@ -23,8 +25,8 @@ const Chart = () => {
      }
 
     return (
-        <div className="border">
-            <CanvasJSChart options = {options}
+        <div className='wrapper border'   >
+            <CanvasJSChart className={styles.chart} options = {options}
             /* onRef = {ref => this.chart = ref} */
         />
         </div>

@@ -32,6 +32,16 @@ export const addItem = (data, newItem) => dispatch => {
   dispatch(setStateData(newData));
 }
 
+export const editItem = (data, editedItem) => dispatch => {
+  debugger;
+  const newData = [...data];
+  const targetItem = newData.find(item => item.id === editedItem.id);
+  const index = newData.indexOf(targetItem);
+  newData.splice(index, 1, editedItem);
+  console.log(newData);
+  dispatch(setStateData(newData));
+}
+
 export const setStateData = data => async dispatch => {
   let fieldsArr = [];
     await dispatch(setItems(data.map(item => {
@@ -40,6 +50,7 @@ export const setStateData = data => async dispatch => {
         if (field !== 'id' && fieldsArr.indexOf(field) < 0) {
           fieldsArr.push(field);
         }
+        return false;
       })
       if (!item.id) {
          return Object.assign(item, { id: Math.random() });
