@@ -54,6 +54,8 @@ function App() {
           <Row>
             <Col>
                 <h3>Тестовое задание Frontend Михайлов Артем</h3>
+                <br/>
+                <a href="https://github.com/Happytoad42/table-test">Исходный код на GitHub</a>
                 <hr/>
             </Col>
           </Row>
