@@ -8,7 +8,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   setStateData,
   selectTableData,
-  selectTableValues
+  selectTableValues,
+  addItem,
+  removeItem,
 } from './redux/slices/tableDataSlice';
 
 import { getApiData } from './API/AppAPI'
@@ -24,14 +26,18 @@ function App() {
     dispatch(setStateData(getApiData()));
   }, [dispatch])
 
+  const handleRemoveItem = (id) => {
+    dispatch(removeItem(tableData, id));
+  }
+
   return (
       <Container fluid className="App">
           <Row>
               <Col className='wrapper' sm={6}>
-                {valuesData.map(item => <Display name={item.name} value={item.value} />)}
+                {valuesData.map((item, i) => <Display key={i} name={item.name} value={item.value} />)}
               </Col>
               <Col className='wrapper' sm={6}>
-                <DataTable  data={tableData}/>
+                <DataTable removeItem={handleRemoveItem}  data={tableData}/>
               </Col>
               <Col className='wrapper' >
                 <Chart/>

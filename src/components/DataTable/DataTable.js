@@ -1,7 +1,7 @@
 import React from 'react';
 import { Table, Spinner } from 'react-bootstrap';
 
-const DataTable = ({ data }) => {
+const DataTable = ({ data, removeItem }) => {
     
     if (!data.length) {
         return (
@@ -20,13 +20,23 @@ const DataTable = ({ data }) => {
                 <thead>
                     <tr>
                         <th>#</th>
-                        { tableHeaders.map((header, i)=> <th key={i}>{header}</th>)}
+                        { tableHeaders.map((header, i) => {
+                            if (header !== 'id') {
+                                return (<th key={i}>{header}</th>)
+                            }
+                        } )}
+                        <th>Delete</th>
                     </tr>
                 </thead>
                 <tbody>
                    {data.map((item, i) => <tr key={i}>
                         <td>{rowCount++}</td>
-                       {tableHeaders.map((header, i) => <td key={i}> {item[header]}</td>)}
+                        {tableHeaders.map((header, ind) => {
+                            if (header !== 'id') {
+                                return (<td key={ind}> {item[header]}</td>)
+                            }
+                        } )}
+                        <th><button onClick={ () => removeItem(item.id) }>X</button></th>
                    </tr>)}
                 </tbody>
             </Table>            

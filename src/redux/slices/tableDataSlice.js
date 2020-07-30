@@ -16,26 +16,31 @@ export const tableDataSlice = createSlice({
     addItem: (state, action) => {
       state.list.push(action.payload);
     },
-    removeItem: (state, action) => {
-      state.list.filter(item => item.id !== action.payload)
-    },
   },
 });
 
-export const { addItem, removeItem, setItems, setValues } = tableDataSlice.actions;
+export const { addItem, setItems, setValues } = tableDataSlice.actions;
+
+export const removeItem = (data, id) => dispatch => {
+  const newData = data.filter(item => item.id !== id);
+  dispatch(setStateData(newData));
+}
 
 export const setStateData = data => async dispatch => {
-    await dispatch(setItems(data));
+    await dispatch(setItems(data.map(item => {
+      if (!item.id) {
+         return Object.assign(item, { id: Math.random() });
+      }
+      return item;
+    })));
     const values = data.reduce((valuesArr, item) => {
         for ( const [key, value] of Object.entries(item)) {
-            debugger;
             if (key.includes('val')) {
                 let targetItem = valuesArr.find(i => i.name === key);
                 if (!targetItem) {
                     valuesArr.push({ name: key, value: +value });
                 } else if (targetItem) {
-                    
-                    targetItem = Object.assign(targetItem, { value: targetItem.value + +value })   
+                  targetItem = Object.assign(targetItem, { value: targetItem.value + +value })   
 
                 }
             }
