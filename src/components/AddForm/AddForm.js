@@ -13,6 +13,10 @@ const AddForm = ({ fields, addItem }) => {
         debugger;
         e.preventDefault();
         addItem(item);
+        setNewItem({});
+        [].forEach.call(e.target.elements, function(item) {
+            item.value = '';
+        })
     }
 
     if (!fields.length) {
@@ -36,7 +40,7 @@ const AddForm = ({ fields, addItem }) => {
         }
     
         return (
-            <Form>
+            <Form onSubmit={(e) => handleSubmit(e, newItem)}>
                 <Form.Row>
                     {fields.map((field, i) => 
                         <Form.Group key={i} as={Col} controlId={`${field}-input`}>
@@ -45,7 +49,7 @@ const AddForm = ({ fields, addItem }) => {
                         </Form.Group>
                     )}              
                 </Form.Row>
-                <Button variant="primary" type="submit" onClick={(e) => handleSubmit(e, newItem)}>
+                <Button variant="primary" type="submit" >
                     Add row
                 </Button>
             </Form>
