@@ -30,7 +30,7 @@ const DataTable = ({ data, fields, removeItem, addItem, editItem }) => {
 
     return (
         <div className='wrapper border' >
-            <Table striped bordered hover>
+            <Table striped bordered size="sm">
                 <thead>
                     <tr>
                         <th>#</th>

@@ -4,7 +4,6 @@ import { Modal, Button, Form, Col } from 'react-bootstrap';
 import { capitalizeFirstLetter, deriveField } from '../../utils/utils';
 
 const EditModal = ({ fields, show, onHide, activeItem, editItem }) => {
-    debugger;
     let editable = { ...activeItem };
 
     const handleSubmit = (e, item) => {

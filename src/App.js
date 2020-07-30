@@ -43,17 +43,24 @@ function App() {
 
   return (
       <Container fluid className="App">
-          <Row clasName='row'>
-              <Col sm={6}>
+          <Row>
+            <Col>
+                <h3>Тестовое задание Frontend Михайлов Артем</h3>
+                <hr/>
+            </Col>
+          </Row>
+          
+          <Row className='row'>
+              <Col xs="auto" xl={4}>
                 <div className='wrapper' >
                    {valuesData.map((item, i) => <Display key={i} name={item.name} value={item.value} />)}
                 </div>              
               </Col>
-              <Col sm={6}>
+              <Col xs="auto" xl={8}>
                 <DataTable removeItem={handleRemoveItem} addItem={handleAddItem} editItem={handleEditItem} data={tableData} fields ={fieldsData}/>
               </Col>
               <Col >
-                <Chart/>
+                <Chart data={tableData} values={valuesData}/>
               </Col>
           </Row>
       </Container>
