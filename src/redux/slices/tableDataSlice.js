@@ -5,6 +5,7 @@ export const tableDataSlice = createSlice({
   initialState: {
     list: [],
     values: [],
+    fields: [],
   },
   reducers: {
     setItems: (state, action) => {
@@ -13,21 +14,33 @@ export const tableDataSlice = createSlice({
     setValues: (state, action) => {
         state.values = action.payload;
     },
-    addItem: (state, action) => {
-      state.list.push(action.payload);
-    },
+    setFields: (state, action) => {
+      state.fields = action.payload;
+    }
   },
 });
 
-export const { addItem, setItems, setValues } = tableDataSlice.actions;
+export const { setItems, setValues, setFields } = tableDataSlice.actions;
 
 export const removeItem = (data, id) => dispatch => {
   const newData = data.filter(item => item.id !== id);
   dispatch(setStateData(newData));
 }
 
+export const addItem = (data, newItem) => dispatch => {
+  const newData = [...data, newItem];
+  dispatch(setStateData(newData));
+}
+
 export const setStateData = data => async dispatch => {
+  let fieldsArr = [];
     await dispatch(setItems(data.map(item => {
+      let itemFields = Object.keys(item);
+      itemFields.map(field => {
+        if (field !== 'id' && fieldsArr.indexOf(field) < 0) {
+          fieldsArr.push(field);
+        }
+      })
       if (!item.id) {
          return Object.assign(item, { id: Math.random() });
       }
@@ -47,10 +60,12 @@ export const setStateData = data => async dispatch => {
         }
         return valuesArr
     }, []);
-    dispatch(setValues(values))
+    dispatch(setFields(fieldsArr));
+    dispatch(setValues(values));
 };
 
 export const selectTableData = state => state.tableData.list;
 export const selectTableValues = state => state.tableData.values;
+export const selectTableFields = state => state.tableData.fields;
 
 export default tableDataSlice.reducer;

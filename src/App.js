@@ -9,6 +9,7 @@ import {
   setStateData,
   selectTableData,
   selectTableValues,
+  selectTableFields,
   addItem,
   removeItem,
 } from './redux/slices/tableDataSlice';
@@ -21,13 +22,19 @@ function App() {
   const dispatch = useDispatch();  
   const tableData = useSelector(selectTableData);
   const valuesData = useSelector(selectTableValues);
+  const fieldsData = useSelector(selectTableFields);
 
   useEffect(() => {
     dispatch(setStateData(getApiData()));
-  }, [dispatch])
+  }, [])
 
   const handleRemoveItem = (id) => {
     dispatch(removeItem(tableData, id));
+  }
+
+  const handleAddItem = (item) => {
+    debugger;
+    dispatch(addItem(tableData, item));
   }
 
   return (
@@ -37,7 +44,7 @@ function App() {
                 {valuesData.map((item, i) => <Display key={i} name={item.name} value={item.value} />)}
               </Col>
               <Col className='wrapper' sm={6}>
-                <DataTable removeItem={handleRemoveItem}  data={tableData}/>
+                <DataTable removeItem={handleRemoveItem} addItem={handleAddItem}  data={tableData} fields ={fieldsData}/>
               </Col>
               <Col className='wrapper' >
                 <Chart/>

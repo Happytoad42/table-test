@@ -1,7 +1,9 @@
 import React from 'react';
-import { Table, Spinner } from 'react-bootstrap';
+import { Table, Spinner, Button } from 'react-bootstrap';
 
-const DataTable = ({ data, removeItem }) => {
+import AddForm from '../AddForm';
+
+const DataTable = ({ data, fields, removeItem, addItem }) => {
     
     if (!data.length) {
         return (
@@ -25,7 +27,7 @@ const DataTable = ({ data, removeItem }) => {
                                 return (<th key={i}>{header}</th>)
                             }
                         } )}
-                        <th>Delete</th>
+                        <th> </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -36,10 +38,13 @@ const DataTable = ({ data, removeItem }) => {
                                 return (<td key={ind}> {item[header]}</td>)
                             }
                         } )}
-                        <th><button onClick={ () => removeItem(item.id) }>X</button></th>
+                        <th><Button size="sm" variant="danger" onClick={ () => removeItem(item.id) }>Del</Button><Button size="sm" variant="primary">Edit</Button></th>
                    </tr>)}
                 </tbody>
-            </Table>            
+            </Table>
+            <hr/>
+            <AddForm addItem={addItem} fields={fields}/>
+
         </div>
     )
 }
